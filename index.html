@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>天依小乐园 · Luo Tianyi Playground</title>
+<meta name="description" content="洛天依主题的小游戏乐园：接马卡龙、节奏敲击、天依琴。纯前端，无依赖。">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.85em' font-size='88'>🎤</text></svg>">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="pulse"></span>
+    <span>天依小乐园</span>
+    <small>#66CCFF</small>
+  </div>
+  <nav id="nav">
+    <button data-view="home" class="active">首页</button>
+    <button data-view="macaron">接马卡龙</button>
+    <button data-view="rhythm">节奏敲击</button>
+    <button data-view="piano">天依琴</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ========== 首页 ========== -->
+  <section id="view-home" class="view active">
+    <div class="hero">
+      <h1>天依小乐园</h1>
+      <p class="sub">三个随手就能玩的小东西。手机、键盘、鼠标都能玩，纯前端，不用装任何东西~</p>
+      <p class="quote">「让世界充满歌声」</p>
+    </div>
+    <div class="cards">
+      <button class="card" data-view="macaron">
+        <div class="card-emoji">🍰</div>
+        <h2>接马卡龙</h2>
+        <p>甜点往下掉，苦瓜也往下掉。接甜的，躲苦的，三次机会。</p>
+        <span class="tag">街机 · 键盘 / 触屏</span>
+      </button>
+      <button class="card" data-view="rhythm">
+        <div class="card-emoji">🎵</div>
+        <h2>节奏敲击</h2>
+        <p>四条轨道，音符踩着拍子落下来。全程用 Web Audio 现场合成，没有音频文件。</p>
+        <span class="tag">音游 · 键盘 / 触屏</span>
+      </button>
+      <button class="card" data-view="piano">
+        <div class="card-emoji">🎹</div>
+        <h2>天依琴</h2>
+        <p>八个键的五声音阶，怎么按都不难听。还有「跟我唱」记忆小游戏。</p>
+        <span class="tag">玩具 · 键盘 / 触屏</span>
+      </button>
+    </div>
+    <p class="hint">提示：右上角切页，随时退出来换一个玩~</p>
+  </section>
+
+  <!-- ========== 接马卡龙 ========== -->
+  <section id="view-macaron" class="view">
+    <div class="gamewrap">
+      <div class="hud">
+        <div class="hud-item">分数 <b id="mac-score">0</b></div>
+        <div class="hud-item">最高 <b id="mac-best">0</b></div>
+        <div class="hud-item">生命 <b id="mac-lives">♥♥♥</b></div>
+      </div>
+      <div class="stage">
+        <canvas id="macaron-canvas" width="420" height="560"></canvas>
+        <div class="overlay" id="mac-overlay">
+          <h3>接马卡龙</h3>
+          <p>左右移动接住 🍰，别碰到 🥒！</p>
+          <p class="small">键盘 ← → 或 A / D，触屏直接拖动</p>
+          <button class="primary" id="mac-start">开始</button>
+        </div>
+      </div>
+      <p class="hint">分数越高，掉得越快——天依也会越来越馋 (๑´ω`๑)</p>
+    </div>
+  </section>
+
+  <!-- ========== 节奏敲击 ========== -->
+  <section id="view-rhythm" class="view">
+    <div class="gamewrap">
+      <div class="hud">
+        <div class="hud-item">分数 <b id="rh-score">0</b></div>
+        <div class="hud-item">连击 <b id="rh-combo">0</b></div>
+        <div class="hud-item">命中率 <b id="rh-acc">--</b></div>
+      </div>
+      <div class="stage rhythm-stage">
+        <canvas id="rhythm-canvas" width="420" height="560"></canvas>
+        <div class="overlay" id="rh-overlay">
+          <h3>节奏敲击</h3>
+          <p>音符落到判定线时敲下去~</p>
+          <p class="small">键盘 D F J K ｜ 触屏点下面四条轨道</p>
+          <button class="primary" id="rh-start">开始</button>
+        </div>
+      </div>
+      <div class="lanes" id="rh-lanes">
+        <button class="lane" data-lane="0">D</button>
+        <button class="lane" data-lane="1">F</button>
+        <button class="lane" data-lane="2">J</button>
+        <button class="lane" data-lane="3">K</button>
+      </div>
+      <p class="hint">音乐是天依现场合成的五声音阶小曲，敲准了会有金光哦 ✧</p>
+    </div>
+  </section>
+
+  <!-- ========== 天依琴 ========== -->
+  <section id="view-piano" class="view">
+    <div class="gamewrap">
+      <div class="hud">
+        <div class="hud-item">模式 <b id="pi-mode">自由弹</b></div>
+        <div class="hud-item">连对 <b id="pi-streak">0</b></div>
+      </div>
+      <div class="piano" id="pi-keys"></div>
+      <div class="controls">
+        <button class="primary" id="pi-demo">听天依唱一遍</button>
+        <button id="pi-follow">跟我唱（记忆小游戏）</button>
+        <button id="pi-clear">停下</button>
+      </div>
+      <p class="hint" id="pi-hint">键位：1 2 3 4 5 6 7 8（或直接点键）</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span>洛天依非官方粉丝小玩具 · 纯 HTML/CSS/JS，无第三方依赖</span>
+  <span class="sep">·</span>
+  <span>天依蓝 #66CCFF</span>
+</footer>
+
+<script src="js/audio.js"></script>
+<script src="js/macaron.js"></script>
+<script src="js/rhythm.js"></script>
+<script src="js/piano.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
